@@ -8,9 +8,9 @@
 			"toolchain": "RISC-V",
 			"series": "CH32V003",
 			"rtos": "NoneOS",
-			"mcu": "CH32V003A4M6",
+			"mcu": "CH32V003J4M6",
 			"description": "Website: https://www.wch.cn/products/CH32V003.html?\\nThe CH32V003 series is an industral-grade general-purpose microcontroller designed based on the highland barley RISCV-V2A core, and supports 48MHz system frequency in terms of product functions. This series has the characteristics of wide voltage, single-wire debugging, low power consumption, ultra-small package and so on. Provide common peripheral functions, built-in 1 set of DMA controller, 1 set of 10-bit analog-to-digital conversion ADC, 1 set of op amp comparator, multiple sets of timers, standard communication interfaces such as USART, I2C, SPI, etc. The rated working voltage of the product is 3.3V or 5V, and the working temperature range is -40'C~85'C industrial grade.",
-			"tempratureScope": "CH32V003A4M6{-40℃~85℃}",
+			"tempratureScope": "CH32V003J4M6{-40℃~85℃}",
 			"artifactType": "executable",
 			"link": "WCH-Link",
 			"peripheral_version": "2.1",
@@ -26,6 +26,21 @@
 				"parentLogicPath": "",
 				"type": "file",
 				"name": "*.wvproj"
+			},
+			{
+				"parentLogicPath": "",
+				"type": "file",
+				"name": "*.7z"
+			},
+			{
+				"parentLogicPath": "",
+				"type": "file",
+				"name": "*.zip"
+			},
+			{
+				"parentLogicPath": "",
+				"type": "file",
+				"name": "*.tar"
 			}
 		],
 		"projectName": "V003-EthCableTest",
@@ -35,14 +50,15 @@
 	"buildConfig": {
 		"configurations": [
 			{
+				"parallelizationNumber": "optimal",
 				"buildArtifact": {
 					"artifact_name": "${ProjName}",
 					"artifact_extension": "elf",
 					"output_prefix": "",
 					"artifact_type": "Executable"
 				},
-				"parallelizationNumber": "optimal",
 				"stop_on_first_build_error": true,
+				"usingCacheAccelerate": false,
 				"pre_script": "",
 				"pre_script_description": "",
 				"post_script": "",
@@ -165,7 +181,9 @@
 						"undefined_symbols": []
 					},
 					"includes": {
-						"include_paths": [],
+						"include_paths": [
+							"${project}/User"
+						],
 						"include_system_paths": [],
 						"include_files": []
 					},
@@ -175,7 +193,7 @@
 						"do_not_use_exceptions": true,
 						"do_not_use_rtti": true,
 						"do_not_use__cxa_atexit": true,
-						"do_not_use_thread_safe_statics": false,
+						"do_not_use_thread_safe_statics": true,
 						"other_optimization_flags": ""
 					},
 					"warnings": {

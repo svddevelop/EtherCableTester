@@ -58,8 +58,17 @@ enum UiState : uint8_t { UI_EDIT, UI_MENU, UI_REC, UI_SEND };
 static UiState s_ui = UI_EDIT;
 static uint8_t s_pin = 0;                       // selected pin0..7
 
-static const char* const MENU_ITEMS[3] = { "REC", "SEND", "SAVE" };
-static const char MODE_CHARS[3] = { CDisplay::SYM_ZERO, '+', CDisplay::SYM_SINE };
+#ifndef __code
+#define __code const __attribute__((section(".rodata")))
+#endif
+
+
+static __code char* const MENU_ITEMS[3] = { "RECEIVE", "SEND", "SAVE" };
+static __code char MODE_CHARS[3] = { CDisplay::SYM_ZERO, '+', CDisplay::SYM_SINE };
+static __code char C_ENUM1_8[] = "12345678";
+static __code char C_SAVED[] = "Saved";
+static __code char C_FAIL[] = "Fail";
+static __code char C_MSG_ETHTEST[] = "ETH Test";
 
 static CDisplay display;
 
@@ -99,7 +108,7 @@ static void render(void) {
   char buf[9];
 
   // line 0: pin numbers
-  display.print(0, "12345678");
+  display.print(0, C_ENUM1_8 );
 
   // line 1: drive modes - or sampled levels while receiving
   if (s_ui == UI_REC) {
@@ -141,8 +150,8 @@ static void activateMenu(void) {
 
     case 2:                                             // SAVE - store in flash
       display.hideCursor();
-      if (CFlash::save(g_cfg)) display.print(2, "SAVED");
-      else                     display.print(2, "FAIL");
+      if (CFlash::save(g_cfg)) display.print(2, C_SAVED);
+      else                     display.print(2, C_FAIL);
       display.flush();
       DLY_ms(900);
       s_ui = UI_EDIT;
@@ -161,7 +170,7 @@ int main(void) {
   display.begin();
 
   // startup splash
-  display.print(0, "ETH TEST");
+  display.print(0, C_MSG_ETHTEST);
   display.flush();
   DLY_ms(600);
 
